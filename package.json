@@ -1,0 +1,24 @@
+{
+  "name": "comparative-analysis-frontend-data-fetching",
+  "version": "1.0.0",
+  "description": "Comparative Analysis of Frontend Data Fetching: useEffect vs. React Query vs. SWR",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "@tanstack/react-query": "^5.28.0",
+    "swr": "^2.2.4"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.2.1",
+    "vite": "^5.0.8",
+    "msw": "^2.0.11"
+  }
+}
