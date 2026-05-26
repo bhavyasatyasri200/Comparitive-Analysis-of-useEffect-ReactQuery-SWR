@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { http, HttpResponse } from 'msw'
 
 const API_LATENCY = 500 // milliseconds
@@ -32,14 +33,18 @@ export const handlers = [
   // POST /api/posts
   http.post('/api/posts', async ({ request }) => {
     await new Promise(resolve => setTimeout(resolve, API_LATENCY))
-    const body = await request.json()
-    const newPost = {
-      id: nextPostId++,
-      userId: mockUser.id,
-      title: body.title
+    try {
+      const body = await request.json()
+      const newPost = {
+        id: nextPostId++,
+        userId: mockUser.id,
+        title: body.title
+      }
+      posts.push(newPost)
+      return HttpResponse.json(newPost, { status: 201 })
+    } catch (error) {
+      return HttpResponse.json({ error: 'Invalid request' }, { status: 400 })
     }
-    posts.push(newPost)
-    return HttpResponse.json(newPost, { status: 201 })
   }),
 
   // DELETE /api/posts/:id
