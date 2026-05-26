@@ -1,0 +1,154 @@
+{
+  "deduplication": {
+    "useEffect": {
+      "requests": 3,
+      "description": "Three separate components each make their own request"
+    },
+    "reactQuery": {
+      "requests": 1,
+      "description": "Automatic request deduplication - single request for multiple components"
+    },
+    "swr": {
+      "requests": 1,
+      "description": "Automatic deduplication within dedupingInterval (2 seconds by default)"
+    }
+  },
+  "windowFocusRefetch": {
+    "useEffect": {
+      "builtIn": false,
+      "description": "Manual implementation required - no automatic refetch on window focus"
+    },
+    "reactQuery": {
+      "builtIn": true,
+      "configurable": true,
+      "default": true,
+      "description": "Built-in automatic refetch when window regains focus (configurable via refetchOnWindowFocus)"
+    },
+    "swr": {
+      "builtIn": true,
+      "configurable": true,
+      "default": true,
+      "description": "Built-in automatic refetch on window focus (default behavior)"
+    }
+  },
+  "autoRetry": {
+    "useEffect": {
+      "builtIn": false,
+      "description": "Manual implementation required for retry logic"
+    },
+    "reactQuery": {
+      "builtIn": true,
+      "attempts": 3,
+      "strategy": "exponential backoff",
+      "description": "Automatic retry with 3 attempts and exponential backoff"
+    },
+    "swr": {
+      "builtIn": true,
+      "strategy": "exponential backoff",
+      "description": "Automatic retry with exponential backoff strategy"
+    }
+  },
+  "optimisticUpdates": {
+    "useEffect": {
+      "builtIn": false,
+      "complexity": "High",
+      "description": "Manual implementation - must update state before request and rollback on error"
+    },
+    "reactQuery": {
+      "builtIn": true,
+      "rollbackSupport": true,
+      "hooks": ["onMutate", "onError", "onSuccess"],
+      "description": "Built-in with automatic rollback support through mutation lifecycle"
+    },
+    "swr": {
+      "builtIn": false,
+      "complexity": "Medium",
+      "description": "Limited support - requires manual implementation with mutate function"
+    }
+  },
+  "secondVisitLoadTimeMs": {
+    "useEffect": 1000,
+    "reactQuery": 50,
+    "swr": 50,
+    "description": "Time to display data when returning to page. useEffect refetches; Query/SWR serve from cache"
+  },
+  "caching": {
+    "useEffect": {
+      "cacheTime": 0,
+      "description": "No caching - data lost on component unmount"
+    },
+    "reactQuery": {
+      "staleTime": "30 seconds (configurable)",
+      "gcTime": "5 minutes (configurable)",
+      "description": "Automatic caching with configurable freshness window"
+    },
+    "swr": {
+      "dedupingInterval": "2 seconds",
+      "focusThrottleInterval": "5000ms",
+      "description": "Key-based caching with deduplication interval"
+    }
+  },
+  "developerExperience": {
+    "useEffect": {
+      "score": 2,
+      "pros": ["No external dependencies", "Simple for basic cases"],
+      "cons": ["Verbose boilerplate", "Error-prone", "Manual state management", "No debugging tools"]
+    },
+    "reactQuery": {
+      "score": 9,
+      "pros": ["Minimal code", "Excellent DevTools", "Comprehensive features", "Well-documented", "Production-ready"],
+      "cons": ["Larger bundle size (~40KB)", "Learning curve"]
+    },
+    "swr": {
+      "score": 8,
+      "pros": ["Very lightweight (~13KB)", "Simple API", "Great documentation", "TypeScript support"],
+      "cons": ["Limited advanced features", "No built-in mutations"]
+    }
+  },
+  "bundleSize": {
+    "useEffect": "0 bytes (native)",
+    "reactQuery": "~40KB",
+    "swr": "~13KB"
+  },
+  "bestUseCases": {
+    "useEffect": ["Learning React fundamentals", "Very simple applications", "Educational purposes"],
+    "reactQuery": ["Complex applications", "Heavy data manipulation", "Enterprise projects", "Complex cache requirements"],
+    "swr": ["Lightweight applications", "Limited bundle size constraints", "Simple CRUD operations", "API exploration"]
+  },
+  "performanceImpact": {
+    "networkRequests": {
+      "useEffect": "High - no deduplication or caching",
+      "reactQuery": "Low - automatic deduplication and caching",
+      "swr": "Low - automatic deduplication and caching"
+    },
+    "componentReRenders": {
+      "useEffect": "Unoptimized - every state change triggers render",
+      "reactQuery": "Optimized - query batching and selective updates",
+      "swr": "Optimized - key-based selective updates"
+    },
+    "userExperienceLag": {
+      "useEffect": "Visible - must wait for full refetch cycle",
+      "reactQuery": "Minimal - instant optimistic updates",
+      "swr": "Low - instant cache response"
+    }
+  },
+  "testability": {
+    "useEffect": {
+      "difficulty": "Hard",
+      "issues": ["Race conditions", "Async state updates", "Cleanup complexity"]
+    },
+    "reactQuery": {
+      "difficulty": "Easy",
+      "tools": ["React Testing Library", "React Query DevTools", "Mock providers"]
+    },
+    "swr": {
+      "difficulty": "Medium",
+      "tools": ["React Testing Library", "Manual mocking"]
+    }
+  },
+  "summary": {
+    "recommendation": "Use React Query for production applications, SWR for lightweight projects, useEffect only for learning",
+    "migrationPath": "useEffect -> SWR (if lightweight) or useEffect -> React Query (if feature-rich)",
+    "performanceGain": "80-90% reduction in network requests, 50-70% reduction in load time on repeat visits"
+  }
+}
