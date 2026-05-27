@@ -90,12 +90,19 @@ export function ReactQueryDashboard() {
   })
 
   const isLoading = userLoading || postsLoading
+  const isFetching = createPostMutation.isPending || deletePostMutation.isPending
   const error = userError?.message || postsError?.message
 
   return (
     <Dashboard>
       <ErrorMessage error={error} />
       {isLoading && <LoadingIndicator />}
+      {!isLoading && (userError || postsError) && (
+        <div style={{ textAlign: 'center', color: '#666', marginBottom: '20px' }}>
+          <div className="loading-spinner" style={{ width: '20px', height: '20px', borderWidth: '2px' }}></div>
+          <p>Retrying attempts... check Network tab</p>
+        </div>
+      )}
       {!isLoading && user && (
         <>
           <div className="section">

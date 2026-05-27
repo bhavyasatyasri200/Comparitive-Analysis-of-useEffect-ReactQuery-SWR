@@ -30,6 +30,7 @@ export function UseEffectDashboard() {
       } catch (err) {
         if (isMounted) {
           setError(err.message)
+          setLoading(false)
         }
       }
     }

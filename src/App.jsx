@@ -14,7 +14,14 @@ const queryClient = new QueryClient({
 })
 
 function App() {
-  const [implementation, setImplementation] = useState('useEffect')
+  const [implementation, setImplementation] = useState(() => {
+    return localStorage.getItem('data-fetching-implementation') || 'useEffect'
+  })
+
+  const handleImplementationChange = (id) => {
+    setImplementation(id)
+    localStorage.setItem('data-fetching-implementation', id)
+  }
 
   return (
     <div>
@@ -23,7 +30,7 @@ function App() {
           <h1>Comparative Analysis of Frontend Data Fetching</h1>
           <div className="nav-buttons">
             <button
-              onClick={() => setImplementation('useEffect')}
+              onClick={() => handleImplementationChange('useEffect')}
               className={implementation === 'useEffect' ? 'active' : ''}
               style={{
                 padding: '10px 20px',
@@ -39,7 +46,7 @@ function App() {
               useEffect
             </button>
             <button
-              onClick={() => setImplementation('reactQuery')}
+              onClick={() => handleImplementationChange('reactQuery')}
               className={implementation === 'reactQuery' ? 'active' : ''}
               style={{
                 padding: '10px 20px',
@@ -55,7 +62,7 @@ function App() {
               React Query
             </button>
             <button
-              onClick={() => setImplementation('swr')}
+              onClick={() => handleImplementationChange('swr')}
               className={implementation === 'swr' ? 'active' : ''}
               style={{
                 padding: '10px 20px',
