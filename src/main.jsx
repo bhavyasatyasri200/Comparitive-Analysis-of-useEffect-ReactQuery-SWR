@@ -5,7 +5,11 @@ import './index.css'
 
 // Initialize MSW in development
 async function init() {
-  if (import.meta.env.DEV && typeof window !== 'undefined') {
+  // if (import.meta.env.DEV && typeof window !== 'undefined')
+   if (
+    import.meta.env.VITE_ENABLE_MSW === 'true' &&
+    typeof window !== 'undefined'
+  ){
     try {
       const { worker } = await import('./mocks/browser')
       await worker.start({
